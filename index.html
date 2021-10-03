@@ -7,12 +7,31 @@
   <title>Simple File Upload</title>
 </head>
 <body>
-  <form>
+  <form id="form__file" action="/upload" enctype="multipart/form-data" method="POST">
     <div>
-      <label for="file">File:</label>
-      <input id="file" name="file" type="file" />  
+      <label for="input__file">File:</label>
+      <input id="input__file" name="file" type="file" />  
     </div>
     <button>Upload</button>
   </form>
+  <script>
+    const form = document.querySelector('#form__file');
+   
+    
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const files = document.querySelector('#input__file').files;
+      if (!files) return;
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      fetch('/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(data => alert('File uploaded!'))
+      .catch(err => alert('Error'))
+    });
+  </script>
 </body>
 </html>
